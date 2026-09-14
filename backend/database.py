@@ -1,15 +1,15 @@
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from dotenv import load_dotenv
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
+load_dotenv()
 
 def get_connection():
-    if not DATABASE_URL:
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
         raise RuntimeError("DATABASE_URL is not set. Add it to your .env file.")
-    return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
-
+    return psycopg2.connect(database_url, cursor_factory=RealDictCursor)
 
 def init_db():
     """Creates the results table if it doesn't exist yet.
